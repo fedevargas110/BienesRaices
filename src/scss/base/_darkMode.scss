@@ -1,0 +1,44 @@
+.dark-mode {
+    background-color: darken($color: $grisOscuro, $amount: 10);
+
+    p{
+        color: $blanco;
+    }
+
+    a, h1, h2, h3, h4  {
+        color: $gris;
+    }
+
+    .card, .resumen-propiedad {
+        background-color: $grisOscuro;
+        border: 1px solid $negro;
+
+        .precio {
+            color: $verde;
+        }
+    }
+
+    .i-card {
+        filter: invert(100%);
+    }
+
+    .texto-nosotros blockquote {
+        color: $gris;
+    }
+
+    .formulario {
+        label, 
+        legend, 
+        p {
+        color: $gris;
+        }
+
+    input:not([type='submit']), //Selector de atributos not permite seleccionar todos excepto el parentesis
+    textarea,
+    select {
+        background-color: $grisOscuro;
+        color: $blanco;
+        border: 1px solid $grisOscuro;
+    }
+    }
+}

@@ -1,0 +1,45 @@
+.formulario {
+    p {
+        font-size: 1.6rem;
+        color: $grisOscuro;
+        margin: 2rem 0 0 0;
+    }
+
+    legend {
+        font-size: 2.2rem;
+        color: $grisOscuro;
+    }
+
+    label {
+        display: block;
+        font-weight: $bold;
+        text-transform: uppercase;
+    }
+
+    input:not([type='submit']), //Selector de atributos not permite seleccionar todos excepto el parentesis
+    textarea,
+    select {
+        padding: 1rem;
+        border-radius: 1rem;
+        border: 1px solid $gris;
+        width: 100%;
+        margin-bottom: 2rem;
+        background-color: $blanco;
+    }
+
+    textarea {
+        height: 15rem;
+    }
+
+    .forma-contactar {
+        max-width: 35rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    input[type="radio"] {
+        margin: 0;
+        width: auto;
+    }
+}

@@ -1,0 +1,1 @@
+{"version":3,"sources":["layout/header.scss","layout/header.css"],"names":[],"mappings":"AAAA,QACI,oBCCJ","file":"header.css","sourcesContent":[".header{\r\n    background-color: red;\r\n}",".header {\n  background-color: red;\n}"]}

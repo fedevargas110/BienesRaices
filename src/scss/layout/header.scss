@@ -1,0 +1,38 @@
+.webp .inicio {
+    background-image: url(../../../../bienesraices_inicio/build/img/header.webp);
+}
+
+.header{
+    padding: 1rem 0 3rem 0;
+    background-color: $grisOscuro;
+
+
+    &.inicio {
+        background-position: center center;
+        background-size: cover;
+
+        @include tablet {
+            min-height: 70rem;
+        }
+
+        .contenido-header {
+            @include tablet {
+                min-height: 70rem;
+            }
+        }
+    }
+}
+
+.contenido-header {
+    display: flex;    
+    flex-direction: column;
+    justify-content: space-between;
+
+    h1 {
+        color: $blanco;
+        text-align: left;
+        font-weight: $bold;
+        line-height: 2;
+        max-width: 60rem;
+    }
+}
