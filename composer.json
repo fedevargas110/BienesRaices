@@ -1,0 +1,19 @@
+{
+    "name": "fedev/bienesraices_inicio",
+    "description": "Creando proyecto con POO y PHP",
+    "type": "project",
+    
+    
+    "authors": [
+        {
+            "name": "fedevargas110",
+            "email": "fedevargas110@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\" : "./clases"
+        }
+    }
+}

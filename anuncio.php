@@ -1,8 +1,8 @@
 <?php
+    require './includes/app.php';
     include './includes/templates/header.php';
 
     //conectando base
-    require '../bienesraices_inicio/includes/config/database.php';
     $db = conectarDB();
 
     //Seleccionando id
