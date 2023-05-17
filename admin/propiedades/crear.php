@@ -1,5 +1,5 @@
 <?php
-    require '../../includes/funciones.php';
+    require '../../includes/app.php';
     $auth = estaAuthenticado();
 
     if(!$auth) {
@@ -8,8 +8,12 @@
 
     include '../../includes/templates/header.php';
 
+    use App\Propiedad;
+    $propiedad = new Propiedad;
+
+    debugear($propiedad);
+
     //Base de Datos
-    require '../../includes/config/database.php';
     $db = conectarDB();
 
 //Mostrar los vendedores desde la base de datos

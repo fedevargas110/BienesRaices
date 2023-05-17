@@ -16,3 +16,10 @@ function estaAuthenticado() : bool {
     }
     return false;
 }
+
+function debugear($variable) {
+    echo '<pre>';
+    var_dump($variable);
+    echo '</pre>';
+    exit;
+}
