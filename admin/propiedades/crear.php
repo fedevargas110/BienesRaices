@@ -9,9 +9,7 @@
     include '../../includes/templates/header.php';
 
     use App\Propiedad;
-    $propiedad = new Propiedad;
 
-    debugear($propiedad);
 
     //Base de Datos
     $db = conectarDB();
@@ -37,6 +35,14 @@ $vendedores_id = '';
 
 //Printeando los valores en el servidor
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+        //Creanod instancia de Propiedad cuando se manda el POST
+        $propiedad = new Propiedad($_POST);
+
+        $propiedad->guardar();
+
+        debugear($propiedad);
+
         //echo '<pre>';
        // var_dump($_POST);
         //echo '</pre>';
@@ -106,11 +112,6 @@ $vendedores_id = '';
             
             //Subiendo la imagen a la carpeta ya creada anteriormente
             move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen . ".jpg");
-
-
-            //Insertando los valores mediante SQL 
-
-            $query = " INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedores_id) VALUES ('$titulo', '$precio','$nombreImagen' , '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$vendedores_id'); ";
 
             //echo $query;
 
