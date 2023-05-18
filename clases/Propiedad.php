@@ -5,6 +5,7 @@ namespace App;
 class Propiedad {
     
     protected static $db;
+    protected static $columnasDB = ['id', 'titulo', 'precio', 'imagen', 'descripcion', 'habitaciones', 'wc', 'estacionamiento', 'creado', 'vendedores_id'];
 
     public $id;
     public $titulo;
@@ -33,16 +34,42 @@ class Propiedad {
     }
 
     public function guardar() {
+        //Sanitizar los Atributos
+        $atributos = $this->sanitizarAtributos();
+        debugear($atributos);
+
+
         //Insertando los valores mediante SQL 
 
         $query = " INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedores_id) VALUES ('$this->titulo', '$this->precio','$this->imagen' , '$this->descripcion', '$this->habitaciones', '$this->wc', '$this->estacionamiento', '$this->creado', '$this->vendedores_id'); ";
 
        $resultado = self::$db->query($query);
+
        debugear($resultado);
+    }
+
+    //Recorrer el objeto, identificar y unir los atributos de la BD
+    public function atributos() {
+        $atributos = [];
+        foreach(self::$columnasDB as $columnas) {
+            if($columnas === 'id') continue;//Lo que hace es que saltee el primer elemento del foreach
+            $atributos[$columnas] = $this->$columnas;
+        }
+        return $atributos;
     }
 
     public static function setDB($database) {
         self::$db = $database;
+    }
+
+    public function sanitizarAtributos() {
+        $atributos = $this->atributos();
+        $sanitizado = [];
+
+        foreach($atributos as $key => $value) {
+            $sanitizado[$key] = self::$db->escape_string($value);
+        }
+        return $sanitizado;
     }
 
 }
