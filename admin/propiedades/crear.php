@@ -20,7 +20,8 @@ $consulta = "SELECT * FROM vendedores;";
 $resultado = mysqli_query($db, $consulta);
 
 //Arreglo con mensajes de errores
-$errores = [];
+$errores = Propiedad::getError();
+
 
 //Definimos las variables vacias para que guarde lo que se asigna despues del if
 $titulo = '';
@@ -39,50 +40,15 @@ $vendedores_id = '';
         //Creanod instancia de Propiedad cuando se manda el POST
         $propiedad = new Propiedad($_POST);
 
-        $propiedad->guardar();
-
-        //Accediendo a files las imagenes
-        $imagen = $_FILES['imagen'];
-        
-        if(!$titulo) {
-            $errores[] = "Debes añadir un titulo";
-        }
-
-        if(!$precio) {
-            $errores[] = "El Precio es Obligatorio";
-        }
-
-        if(strlen(!$descripcion) > 50 ) {
-            $errores[] = "Debes añadir una descripcion y que contenga 50 caracteres minimo";
-        }
-
-        if(!$habitaciones) {
-            $errores[] = "Debes añadir un numero de habitaciones";
-        }
-
-        if(!$wc) {
-            $errores[] = "Debes añadir un numero de baños";
-        }
-
-        if(!$estacionamiento) {
-            $errores[] = "Debes añadir un numero de estacionamientos";
-        }
-
-        if(!$vendedores_id) {
-            $errores[] = "Debes elejir un vendedor";
-        }
-
-        if(!$imagen['name']) {
-            $errores[] = "La imagen es obligatoria";
-        }
-
-       // echo '<pre>';
-        //    var_dump($errores);
-       // echo '</pre>';
+        $errores = $propiedad->validar();
         
         //Revisar que el arrelgo de errores este vacio asi se procede a insertar en BD
 
         if(empty($errores)) {
+            $propiedad->guardar();
+
+            //Accediendo a files las imagenes
+            $imagen = $_FILES['imagen'];
 
             //Creando carpeta donde se guardaran las imagenes
 

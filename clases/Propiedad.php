@@ -4,8 +4,13 @@ namespace App;
 
 class Propiedad {
     
+    //Bases de Datos
     protected static $db;
     protected static $columnasDB = ['id', 'titulo', 'precio', 'imagen', 'descripcion', 'habitaciones', 'wc', 'estacionamiento', 'creado', 'vendedores_id'];
+
+    //Error
+    protected static $errores = [];
+
 
     public $id;
     public $titulo;
@@ -47,8 +52,6 @@ class Propiedad {
         $query .= " '); ";
 
        $resultado = self::$db->query($query);
-
-       debugear($resultado);
     }
 
     //Recorrer el objeto, identificar y unir los atributos de la BD
@@ -73,6 +76,46 @@ class Propiedad {
             $sanitizado[$key] = self::$db->escape_string($value);
         }
         return $sanitizado;
+    }
+
+    //Validar Errores
+    public static function getError() {
+        return self::$errores;
+    }
+
+    public function validar() {
+        if(!$this->titulo) {
+            self::$errores[] = "Debes añadir un titulo";
+        }
+
+        if(!$this->precio) {
+            self::$errores[] = "El Precio es Obligatorio";
+        }
+
+        if(strlen(!$this->descripcion) < 50 ) {
+            self::$errores[] = "Debes añadir una descripcion y que contenga 50 caracteres minimo";
+        }
+
+        if(!$this->habitaciones) {
+            self::$errores[] = "Debes añadir un numero de habitaciones";
+        }
+
+        if(!$this->wc) {
+            self::$errores[] = "Debes añadir un numero de baños";
+        }
+
+        if(!$this->estacionamiento) {
+            self::$errores[] = "Debes añadir un numero de estacionamientos";
+        }
+
+        if(!$this->vendedores_id) {
+            self::$errores[] = "Debes elejir un vendedor";
+        }
+
+//        if(!$this->imagen['name']) {
+//            self::$errores[] = "La imagen es obligatoria";
+//        }
+        return self::$errores;
     }
 
 }
