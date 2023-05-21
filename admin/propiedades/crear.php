@@ -41,22 +41,7 @@ $vendedores_id = '';
 
         $propiedad->guardar();
 
-        debugear($propiedad);
-
-        //echo '<pre>';
-       // var_dump($_POST);
-        //echo '</pre>';
-
-
-        //Accediendo a los valores
-        $titulo = mysqli_real_escape_string($db, $_POST['titulo']) ;
-        $precio = mysqli_real_escape_string($db, $_POST['precio']);
-        $descripcion = mysqli_real_escape_string($db, $_POST['descripcion']);
-        $habitaciones = mysqli_real_escape_string($db, $_POST['habitaciones']);
-        $wc = mysqli_real_escape_string($db, $_POST['wc']);
-        $estacionamiento = mysqli_real_escape_string($db, $_POST['estacionamiento']);
-        $creado = mysqli_real_escape_string($db, date('Y/m/d'));
-        $vendedores_id = mysqli_real_escape_string($db, $_POST['vendedor']);
+        //Accediendo a files las imagenes
         $imagen = $_FILES['imagen'];
         
         if(!$titulo) {

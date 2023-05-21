@@ -36,12 +36,15 @@ class Propiedad {
     public function guardar() {
         //Sanitizar los Atributos
         $atributos = $this->sanitizarAtributos();
-        debugear($atributos);
 
 
-        //Insertando los valores mediante SQL 
+        //Insertando los valores ya sanitizados mediante SQL 
 
-        $query = " INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedores_id) VALUES ('$this->titulo', '$this->precio','$this->imagen' , '$this->descripcion', '$this->habitaciones', '$this->wc', '$this->estacionamiento', '$this->creado', '$this->vendedores_id'); ";
+        $query = " INSERT INTO propiedades ( ";
+        $query .= join(', ', array_keys($atributos));
+        $query .= " ) VALUES (' ";
+        $query .= join("', '", array_values($atributos));
+        $query .= " '); ";
 
        $resultado = self::$db->query($query);
 
