@@ -9,6 +9,7 @@
     include '../../includes/templates/header.php';
 
     use App\Propiedad;
+    use Intervention\Image\ImageManagerStatic as Image;
 
 
     //Base de Datos
@@ -37,37 +38,37 @@ $vendedores_id = '';
 //Printeando los valores en el servidor
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
-        //Creanod instancia de Propiedad cuando se manda el POST
+        //Creanodo instancia de Propiedad cuando se manda el POST
         $propiedad = new Propiedad($_POST);
-
+        
+        //Crendo nombres unicos y random a nuestras imagenes
+        $nombreImagen = md5(uniqid(rand(), true));
+       
+        //Setear la imagen
+        //Relaizando un resize a la imagen
+        if($_FILES['imagen']['tmp_name']) {
+            $image = Image::make($_FILES['imagen']['tmp_name'])->fit(800,600);
+            $propiedad->setImagen($nombreImagen);
+        }
+        
+        //Validando
         $errores = $propiedad->validar();
         
         //Revisar que el arrelgo de errores este vacio asi se procede a insertar en BD
-
         if(empty($errores)) {
-            $propiedad->guardar();
-
-            //Accediendo a files las imagenes
-            $imagen = $_FILES['imagen'];
-
-            //Creando carpeta donde se guardaran las imagenes
-
-            $carpetaImagenes = "../../imagenes/";
-
-            //Crendo nombres unicos y random a nuestras imagenes
-            $nombreImagen = md5(uniqid(rand(), true));
-
-            if(!is_dir($carpetaImagenes)) {
-                mkdir($carpetaImagenes);
+           
+            //Crear la carpeta
+            if(!is_dir(CARPETAS_IMAGENES)) {
+                mkdir(CARPETAS_IMAGENES);
             }
             
-            //Subiendo la imagen a la carpeta ya creada anteriormente
-            move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen . ".jpg");
+            //Guarda la imagen en el servidor
+            $image->save(CARPETAS_IMAGENES . $nombreImagen);
 
-            //echo $query;
+            //Guarda en la BD
+           $resultado = $propiedad->guardar();
 
-            $resultado = mysqli_query($db, $query);
-
+            //Mensaje de Exito
             if ($resultado) {
                 //Redireccionar al usuario
                 header('Location: /bienesraices_inicio/admin/index.php?resultado=1');
