@@ -48,7 +48,7 @@ $vendedores_id = '';
         //Relaizando un resize a la imagen
         if($_FILES['imagen']['tmp_name']) {
             $image = Image::make($_FILES['imagen']['tmp_name'])->fit(800,600);
-            $propiedad->setImagen($nombreImagen);
+            $propiedad->setImagen($nombreImagen . '.png');
         }
         
         //Validando
@@ -63,7 +63,7 @@ $vendedores_id = '';
             }
             
             //Guarda la imagen en el servidor
-            $image->save(CARPETAS_IMAGENES . $nombreImagen);
+            $image->save(CARPETAS_IMAGENES . $nombreImagen . '.png');
 
             //Guarda en la BD
            $resultado = $propiedad->guardar();

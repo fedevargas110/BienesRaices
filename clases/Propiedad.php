@@ -129,4 +129,43 @@ class Propiedad {
         return self::$errores;
     }
 
+    //Listar todas la propiedades
+    public static function all() {
+        $query = "SELECT * FROM propiedades";
+
+       $resultado = self::constultarSQL($query); //Haciendo la consulta a la BD
+
+        return $resultado;
+    }
+
+    //
+    public static function constultarSQL($query) {
+        //Consutar la BD
+        $resultado = self::$db->query($query);
+
+        //Iterar los resultados
+        $array = [];
+        while($registro = $resultado->fetch_assoc()) {
+            $array[] = self::crearObjeto($registro);
+        }
+
+        //Liberar la memoria
+        $resultado->free();
+
+        //Return los resultados ya formateados
+        return $array;
+    }
+
+    protected static function crearObjeto($registro){
+        $objeto = new self;
+
+        foreach($registro as $key => $value) { //este codigo esta tomando un arreglo y esta creando un objeto en memoria que es un espejo de lo que hay en la BD
+            if( property_exists( $objeto, $key) ) {
+                $objeto->$key = $value;
+            }
+        }
+
+        return $objeto;
+    }
+
 }
