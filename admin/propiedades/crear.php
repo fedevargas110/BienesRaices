@@ -15,6 +15,8 @@
     //Base de Datos
     $db = conectarDB();
 
+    $propiedad = new Propiedad;
+
 //Mostrar los vendedores desde la base de datos
 $consulta = "SELECT * FROM vendedores;";
 
@@ -22,17 +24,6 @@ $resultado = mysqli_query($db, $consulta);
 
 //Arreglo con mensajes de errores
 $errores = Propiedad::getError();
-
-
-//Definimos las variables vacias para que guarde lo que se asigna despues del if
-$titulo = '';
-$precio = '';
-$descripcion = '';
-$habitaciones = '';
-$wc = '';
-$estacionamiento = '';
-$vendedores_id = '';
-
 
 
 //Printeando los valores en el servidor
@@ -92,6 +83,7 @@ $vendedores_id = '';
         <form class="formulario" method="POST" action="crear.php" enctype="multipart/form-data">
              
             <!--Los agrego desde Templates-->
+            <?php include '../../includes/templates/formulario_propiedades.php'; ?>
 
             <input type="submit" value="Crear Propiedad" class="boton boton-verde">
         </form>
