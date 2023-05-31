@@ -1,5 +1,8 @@
 <?php
-    require '../../includes/funciones.php';
+
+use App\Propiedad;
+
+    require '../../includes/app.php';
     $auth = estaAuthenticado();
 
     if(!$auth) {
@@ -15,16 +18,10 @@
     if(!$id) {
         header('Location: ../admin/index.php');
     }
-    
-    //Base de Datos
-    require '../../includes/config/database.php';
-    $db = conectarDB();
-
 
     //Obtener los datos de la propiedad
-    $consulta = "SELECT * FROM propiedades WHERE id = ${id}";
-    $resultado = mysqli_query($db, $consulta);
-    $propiedadn = mysqli_fetch_assoc($resultado);
+    $propiedad = Propiedad::find($id);
+
 
 //Mostrar los vendedores desde la base de datos
 $consulta = "SELECT * FROM vendedores;";
@@ -33,17 +30,6 @@ $resultado = mysqli_query($db, $consulta);
 
 //Arreglo con mensajes de errores
 $errores = [];
-
-//Definimos las variables vacias para que guarde lo que se asigna despues del if
-$titulo = $propiedadn['titulo'];
-$precio = $propiedadn['precio'];
-$descripcion = $propiedadn['descripcion'];
-$habitaciones = $propiedadn['habitaciones'];
-$wc = $propiedadn['wc'];
-$estacionamiento = $propiedadn['estacionamiento'];
-$vendedores_id = $propiedadn['vendedores_id'];
-$imagenPropiedad = $propiedadn['imagen'];
-
 
 
 //Printeando los valores en el servidor
@@ -153,47 +139,8 @@ $imagenPropiedad = $propiedadn['imagen'];
         <?php endforeach;?>
 
         <form class="formulario" method="POST" enctype="multipart/form-data">
-            <fieldset>
-                <legend>Información General</legend>
-
-                <label for="titulo">Nombre:</label>
-                <input type="text" id="titulo" name="titulo" placeholder="Nombre de la Propiedad" value="<?php echo $titulo ?>">
-
-                <label for="precio">Precio:</label>
-                <input type="number" id="precio" name="precio" placeholder="Precio de la Propiedad" value="<?php echo $precio ?>">
-
-                <label for="imagen">Imagen:</label>
-                <input type="file" id="imagen" accept="image/jpeg, image/png" name="imagen">
-
-                <img src="../../imagenes/<?php echo $imagenPropiedad; ?>.jpg" class="imagen-small">
-
-                <label for="descripcion">Descripción:</label>
-                <textarea id="descripcion" name="descripcion"><?php echo $descripcion ?></textarea>
-            </fieldset>
-              
-            <fieldset>
-                <legend>Información Propiedad</legend>
-                
-                <label for="habitaciones">Habitaciones:</label>
-                <input type="number" id="habitaciones" name="habitaciones" placeholder="Ej: 3" min="1" max="9" value="<?php echo $habitaciones ?>">
-
-                <label for="wc">Baños:</label>
-                <input type="number" id="wc" name="wc" placeholder="Ej: 3" min="1" max="9" value="<?php echo $wc ?>">
-
-                <label for="estacionamiento">Estacionamiento:</label>
-                <input type="number" id="estacionamiento" name="estacionamiento" placeholder="Ej: 3" min="1" max="9" value="<?php echo $estacionamiento ?>">
-            </fieldset>
-
-            <fieldset>
-                <legend>Vendedor</legend>
-
-                <select name="vendedor">
-                    <option value="" disabled selected>>----Seleccionar----<</option>
-                    <?php while($vendedor = mysqli_fetch_assoc($resultado)) : ?>
-                        <option <?php echo $vendedores_id === $vendedor['id'] ? 'selected' : ''; ?>  value="<?php echo $vendedor['id']; ?>"><?php echo $vendedor['nombre'] . " " . $vendedor['apellido'];?></option>
-                    <?php endwhile; ?>
-                </select>
-            </fieldset>
+            
+            <?php include '../../includes/templates/formulario_propiedades.php' ?>
 
             <input type="submit" value="Actualizar Propiedad" class="boton boton-verde">
         </form>

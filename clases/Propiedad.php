@@ -138,6 +138,15 @@ class Propiedad {
         return $resultado;
     }
 
+    //Busca un registro por su id
+    public static function find($id) {
+        $query = "SELECT * FROM propiedades WHERE id = ${id}";
+
+        $resultado = self::constultarSQL($query);
+
+        return array_shift($resultado);
+    }
+
     //
     public static function constultarSQL($query) {
         //Consutar la BD
