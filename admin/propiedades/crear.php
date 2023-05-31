@@ -30,15 +30,15 @@ $errores = Propiedad::getError();
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
         //Creanodo instancia de Propiedad cuando se manda el POST
-        $propiedad = new Propiedad($_POST);
+        $propiedad = new Propiedad($_POST['propiedad']);
         
         //Crendo nombres unicos y random a nuestras imagenes
         $nombreImagen = md5(uniqid(rand(), true));
        
         //Setear la imagen
         //Relaizando un resize a la imagen
-        if($_FILES['imagen']['tmp_name']) {
-            $image = Image::make($_FILES['imagen']['tmp_name'])->fit(800,600);
+        if($_FILES['propiedad']['tmp_name']['imagen']) {
+            $image = Image::make($_FILES['propiedad']['tmp_name']['imagen'])->fit(800,600);
             $propiedad->setImagen($nombreImagen . '.png');
         }
         

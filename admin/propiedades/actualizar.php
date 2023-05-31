@@ -29,57 +29,21 @@ $consulta = "SELECT * FROM vendedores;";
 $resultado = mysqli_query($db, $consulta);
 
 //Arreglo con mensajes de errores
-$errores = [];
+$errores = Propiedad::getError();
 
 
 //Printeando los valores en el servidor
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
-        echo '<pre>';
-            var_dump($_POST);
-        echo '</pre>';
-
-        //Accediendo a los valores
-        $titulo = mysqli_real_escape_string($db, $_POST['titulo']) ;
-        $precio = mysqli_real_escape_string($db, $_POST['precio']);
-        $descripcion = mysqli_real_escape_string($db, $_POST['descripcion']);
-        $habitaciones = mysqli_real_escape_string($db, $_POST['habitaciones']);
-        $wc = mysqli_real_escape_string($db, $_POST['wc']);
-        $estacionamiento = mysqli_real_escape_string($db, $_POST['estacionamiento']);
-        $creado = mysqli_real_escape_string($db, date('Y/m/d'));
-        $vendedores_id = mysqli_real_escape_string($db, $_POST['vendedor']);
-        $imagen = $_FILES['imagen'];
         
-        if(!$titulo) {
-            $errores[] = "Debes añadir un titulo";
-        }
+        //Asignando los atributos
+        $args = $_POST['propiedad'];
 
-        if(!$precio) {
-            $errores[] = "El Precio es Obligatorio";
-        }
+        //Aplicando el metodo
+        $propiedad->sincronizar($args);
 
-        if(strlen(!$descripcion) > 50 ) {
-            $errores[] = "Debes añadir una descripcion y que contenga 50 caracteres minimo";
-        }
-
-        if(!$habitaciones) {
-            $errores[] = "Debes añadir un numero de habitaciones";
-        }
-
-        if(!$wc) {
-            $errores[] = "Debes añadir un numero de baños";
-        }
-
-        if(!$estacionamiento) {
-            $errores[] = "Debes añadir un numero de estacionamientos";
-        }
-
-        if(!$vendedores_id) {
-            $errores[] = "Debes elejir un vendedor";
-        }
-
-       // echo '<pre>';
-        //    var_dump($errores);
-       // echo '</pre>';
+        debugear($propiedad);
+        
+        $errores = $propiedad->validar();
         
         //Revisar que el arrelgo de errores este vacio asi se procede a insertar en BD
 
