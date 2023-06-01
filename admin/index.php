@@ -27,7 +27,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $resultado = mysqli_query($db, $query);
         $propiedad = mysqli_fetch_assoc($resultado);
 
-        unlink('../imagenes/' . $propiedad['imagen'] . '.jpg');
+        unlink('../imagenes/' . $propiedad['imagen']);
 
         //Eliminar propiedad
 

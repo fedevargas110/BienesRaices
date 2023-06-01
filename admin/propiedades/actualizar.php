@@ -1,6 +1,7 @@
 <?php
 
 use App\Propiedad;
+use Intervention\Image\ImageManagerStatic as Image;
 
     require '../../includes/app.php';
     $auth = estaAuthenticado();
@@ -41,46 +42,25 @@ $errores = Propiedad::getError();
         //Aplicando el metodo
         $propiedad->sincronizar($args);
 
-        debugear($propiedad);
-        
         $errores = $propiedad->validar();
         
+        //Subida de archivos
+
+        //Crendo nombres unicos y random a nuestras imagenes
+        $nombreImagen = md5(uniqid(rand(), true));
+
+        if($_FILES['propiedad']['tmp_name']['imagen']) {
+            $image = Image::make($_FILES['propiedad']['tmp_name']['imagen'])->fit(800,600);
+            $propiedad->setImagen($nombreImagen . '.png');
+        }
+
         //Revisar que el arrelgo de errores este vacio asi se procede a insertar en BD
-
         if(empty($errores)) {
+            //Almacenar IMG nueva
+            $image->save(CARPETAS_IMAGENES . $nombreImagen . '.png');
 
-            //Creando carpeta donde se guardaran las imagenes
-
-            $carpetaImagenes = "../../imagenes/";
-
-            if(!is_dir($carpetaImagenes)) {
-                mkdir($carpetaImagenes);
-            }
-
-
-            //Creando $nombreImagen vacio para que no elimine en caso de no actualizar imagen
-            $nombreImagen = '';
-
-            //Eliminando imagen previa
-            if($imagen['name']) {
-                unlink($carpetaImagenes . $propiedadn['imagen']);
-
-                //Crendo nombres unicos y random a nuestras imagenes
-                $nombreImagen = md5(uniqid(rand(), true));  
-
-                //Subiendo la imagen a la carpeta ya creada anteriormente
-                move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen . ".jpg");
-            }else {
-                $nombreImagen = $propiedadn['imagen'];
-            }
-            
-            //Insertando los valores mediante SQL 
-
-            $query = " UPDATE propiedades SET titulo = '${titulo}', precio = '${precio}', imagen = '${nombreImagen}', descripcion = '${descripcion}', habitaciones = ${habitaciones}, wc = ${wc}, estacionamiento = ${estacionamiento}, vendedores_id = ${vendedores_id} WHERE id = ${id}";
-
-            //echo $query;
-
-            $resultado = mysqli_query($db, $query);
+            //Guarda en la BD
+            $resultado = $propiedad->actualizar();
 
             if ($resultado) {
                 //Redireccionar al usuario

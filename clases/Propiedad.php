@@ -52,8 +52,26 @@ class Propiedad {
         $query .= " '); ";
 
        $resultado = self::$db->query($query);
-
        return $resultado;
+    }
+
+    public function actualizar() {
+        //Sanitizar los valores
+        $atributos = $this->sanitizarAtributos();
+
+        $valores = [];
+        foreach($atributos as $key => $value) {
+            $valores[] = "{$key}='{$value}'";
+        }
+        
+
+        $query = "UPDATE propiedades SET ";
+        $query .= (join(', ', $valores)); //JOin convierte el array llave valor en un string todo junto
+        $query .= " WHERE id = '" . self::$db->escape_string($this->id) . "'; ";
+
+        
+        $resultado = self::$db->query($query);
+        return $resultado;
     }
 
     //Recorrer el objeto, identificar y unir los atributos de la BD
@@ -82,6 +100,16 @@ class Propiedad {
 
     //Subida de Archivos
     public function setImagen($imagen) {
+        //Elimina la imagen anterior
+        if(isset($this->id)){
+            //Comprobar que el archivo existe
+            $existeArchivo = file_exists(CARPETAS_IMAGENES . $this->imagen);
+
+            if($existeArchivo) {
+                unlink(CARPETAS_IMAGENES . $this->imagen);//Unlink es para eliminar archivo
+            }
+        }
+
         //Asignar al atributo de la imagen el nombre de la imagen
         if($imagen) {
             $this->imagen = $imagen;
