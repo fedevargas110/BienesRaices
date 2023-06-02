@@ -59,13 +59,7 @@ $errores = Propiedad::getError();
             $image->save(CARPETAS_IMAGENES . $nombreImagen);
 
             //Guarda en la BD
-            $resultado = $propiedad->guardar();
-
-            if ($resultado) {
-                //Redireccionar al usuario
-                header('Location: /bienesraices_inicio/admin/index.php?resultado=2');
-               // echo 'Insertado Correctamente';
-            }
+            $propiedad->guardar();
         }
     }
 

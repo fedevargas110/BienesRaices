@@ -26,7 +26,7 @@ class Propiedad {
 
     public function __construct($args=[])
     {
-        $this->id = $args['id'] ?? '';
+        $this->id = $args['id'] ?? NULL;
         $this->titulo = $args['titulo'] ?? '';
         $this->precio = $args['precio'] ?? '';
         $this->imagen = $args['imagen'] ?? '';
@@ -38,6 +38,14 @@ class Propiedad {
         $this->vendedores_id = $args['vendedor'] ?? 1;
     }
 
+
+    public function guardar() {
+        if(!is_null($this->id)) {
+            $this->actualizar();
+        }else {
+            $this->crear();
+        }
+    }
 
     public function actualizar() {
         //Sanitizar los valores
@@ -55,10 +63,15 @@ class Propiedad {
 
         
         $resultado = self::$db->query($query);
-        return $resultado;
+
+        if ($resultado) {
+            //Redireccionar al usuario
+            header('Location: /bienesraices_inicio/admin/index.php?resultado=2');
+           // echo 'Insertado Correctamente';
+        }
     }
 
-    public function guardar() {
+    public function crear() {
         //Sanitizar los Atributos
         $atributos = $this->sanitizarAtributos();
 
@@ -70,10 +83,27 @@ class Propiedad {
         $query .= " '); ";
 
        $resultado = self::$db->query($query);
-       return $resultado;
+
+        //Mensaje de Exito
+        if ($resultado) {
+            //Redireccionar al usuario
+            header('Location: /bienesraices_inicio/admin/index.php?resultado=1');
+           // echo 'Insertado Correctamente';
+        }
     }
 
-    
+    //Metodo para eliminar una propiedad
+    public function eliminar() {
+        //Eliminar propiedad
+        $consulta = "DELETE FROM propiedades WHERE id = " . self::$db->escape_string($this->id);
+        $result = self::$db->query($consulta);
+
+        if($result) {
+            $this->eliminarImagen();
+            header('location: /bienesraices_inicio/admin/index.php?resultado=3');
+        }
+
+    }
 
     //Recorrer el objeto, identificar y unir los atributos de la BD
     public function atributos() {
@@ -104,16 +134,21 @@ class Propiedad {
         //Elimina la imagen anterior
         if(isset($this->id)){
             //Comprobar que el archivo existe
-            $existeArchivo = file_exists(CARPETAS_IMAGENES . $this->imagen);
-
-            if($existeArchivo) {
-                unlink(CARPETAS_IMAGENES . $this->imagen);//Unlink es para eliminar archivo
-            }
+          $this->eliminarImagen(); 
         }
 
         //Asignar al atributo de la imagen el nombre de la imagen
         if($imagen) {
             $this->imagen = $imagen;
+        }
+    }
+
+    //Eliminar Imagen
+    public function eliminarImagen() {
+        $existeArchivo = file_exists(CARPETAS_IMAGENES . $this->imagen);
+
+        if($existeArchivo) {
+            unlink(CARPETAS_IMAGENES . $this->imagen);//Unlink es para eliminar archivo
         }
     }
 

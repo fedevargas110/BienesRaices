@@ -21,22 +21,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if($id) {
         
-        //ELiminar archivo
-        $query = "SELECT imagen FROM propiedades WHERE id = ${id}";
+        $propiedad = Propiedad::find($id);
+        
+        $propiedad->eliminar();
 
-        $resultado = mysqli_query($db, $query);
-        $propiedad = mysqli_fetch_assoc($resultado);
-
-        unlink('../imagenes/' . $propiedad['imagen']);
-
-        //Eliminar propiedad
-
-        $consulta = "DELETE FROM propiedades WHERE id = ${id};";
-        $result = mysqli_query($db, $consulta);
-
-        if($result) {
-            header('location: /bienesraices_inicio/admin/index.php?resultado=3');
-        }
     }
 }
 
