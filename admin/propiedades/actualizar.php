@@ -32,7 +32,6 @@ $resultado = mysqli_query($db, $consulta);
 //Arreglo con mensajes de errores
 $errores = Propiedad::getError();
 
-
 //Printeando los valores en el servidor
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
         
@@ -47,20 +46,20 @@ $errores = Propiedad::getError();
         //Subida de archivos
 
         //Crendo nombres unicos y random a nuestras imagenes
-        $nombreImagen = md5(uniqid(rand(), true));
+        $nombreImagen = md5(uniqid(rand(), true)) . '.png';
 
         if($_FILES['propiedad']['tmp_name']['imagen']) {
             $image = Image::make($_FILES['propiedad']['tmp_name']['imagen'])->fit(800,600);
-            $propiedad->setImagen($nombreImagen . '.png');
+            $propiedad->setImagen($nombreImagen);
         }
 
         //Revisar que el arrelgo de errores este vacio asi se procede a insertar en BD
         if(empty($errores)) {
             //Almacenar IMG nueva
-            $image->save(CARPETAS_IMAGENES . $nombreImagen . '.png');
+            $image->save(CARPETAS_IMAGENES . $nombreImagen);
 
             //Guarda en la BD
-            $resultado = $propiedad->actualizar();
+            $resultado = $propiedad->guardar();
 
             if ($resultado) {
                 //Redireccionar al usuario

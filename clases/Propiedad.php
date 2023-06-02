@@ -38,22 +38,6 @@ class Propiedad {
         $this->vendedores_id = $args['vendedor'] ?? 1;
     }
 
-    public function guardar() {
-        //Sanitizar los Atributos
-        $atributos = $this->sanitizarAtributos();
-
-
-        //Insertando los valores ya sanitizados mediante SQL 
-
-        $query = " INSERT INTO propiedades ( ";
-        $query .= join(', ', array_keys($atributos));
-        $query .= " ) VALUES (' ";
-        $query .= join("', '", array_values($atributos));
-        $query .= " '); ";
-
-       $resultado = self::$db->query($query);
-       return $resultado;
-    }
 
     public function actualizar() {
         //Sanitizar los valores
@@ -66,13 +50,30 @@ class Propiedad {
         
 
         $query = "UPDATE propiedades SET ";
-        $query .= (join(', ', $valores)); //JOin convierte el array llave valor en un string todo junto
+        $query .= join(', ', $valores); //JOin convierte el array llave valor en un string todo junto
         $query .= " WHERE id = '" . self::$db->escape_string($this->id) . "'; ";
 
         
         $resultado = self::$db->query($query);
         return $resultado;
     }
+
+    public function guardar() {
+        //Sanitizar los Atributos
+        $atributos = $this->sanitizarAtributos();
+
+        //Insertando los valores ya sanitizados mediante SQL 
+        $query = "INSERT INTO propiedades ( ";
+        $query .= join(', ', array_keys($atributos));
+        $query .= " ) VALUES (' ";
+        $query .= join("', '", array_values($atributos));
+        $query .= " '); ";
+
+       $resultado = self::$db->query($query);
+       return $resultado;
+    }
+
+    
 
     //Recorrer el objeto, identificar y unir los atributos de la BD
     public function atributos() {

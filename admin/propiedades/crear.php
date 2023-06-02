@@ -33,13 +33,13 @@ $errores = Propiedad::getError();
         $propiedad = new Propiedad($_POST['propiedad']);
         
         //Crendo nombres unicos y random a nuestras imagenes
-        $nombreImagen = md5(uniqid(rand(), true));
+        $nombreImagen = md5(uniqid(rand(), true)) . '.png';
        
         //Setear la imagen
         //Relaizando un resize a la imagen
         if($_FILES['propiedad']['tmp_name']['imagen']) {
             $image = Image::make($_FILES['propiedad']['tmp_name']['imagen'])->fit(800,600);
-            $propiedad->setImagen($nombreImagen . '.png');
+            $propiedad->setImagen($nombreImagen);
         }
         
         //Validando
@@ -54,7 +54,7 @@ $errores = Propiedad::getError();
             }
             
             //Guarda la imagen en el servidor
-            $image->save(CARPETAS_IMAGENES . $nombreImagen . '.png');
+            $image->save(CARPETAS_IMAGENES . $nombreImagen);
 
             //Guarda en la BD
            $resultado = $propiedad->guardar();
