@@ -1,7 +1,8 @@
 <?php
 
-use App\Propiedad;
-use Intervention\Image\ImageManagerStatic as Image;
+    use App\Propiedad;
+    use App\Vendedores;
+    use Intervention\Image\ImageManagerStatic as Image;
 
     require '../../includes/app.php';
     $auth = estaAuthenticado();
@@ -22,17 +23,14 @@ use Intervention\Image\ImageManagerStatic as Image;
 
     //Obtener los datos de la propiedad
     $propiedad = Propiedad::find($id);
+    
+    //Consulta para obtener todos los vendedores
+    $vendedores = Vendedores::all();
 
+        //Arreglo con mensajes de errores
+        $errores = Propiedad::getError();
 
-//Mostrar los vendedores desde la base de datos
-$consulta = "SELECT * FROM vendedores;";
-
-$resultado = mysqli_query($db, $consulta);
-
-//Arreglo con mensajes de errores
-$errores = Propiedad::getError();
-
-//Printeando los valores en el servidor
+    //Printeando los valores en el servidor
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
         
         //Asignando los atributos
@@ -55,9 +53,10 @@ $errores = Propiedad::getError();
 
         //Revisar que el arrelgo de errores este vacio asi se procede a insertar en BD
         if(empty($errores)) {
-            //Almacenar IMG nueva
-            $image->save(CARPETAS_IMAGENES . $nombreImagen);
-
+            if($_FILES['propiedad']['tmp_name']['imagen']) {
+                //Almacenar IMG nueva
+                $image->save(CARPETAS_IMAGENES . $nombreImagen);
+            }
             //Guarda en la BD
             $propiedad->guardar();
         }

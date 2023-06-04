@@ -34,7 +34,7 @@
             <fieldset>
                 <legend>Vendedor</legend>
                 <label for="vendedores"></label>
-                <select name="propiedad[vendedores_id]" id="vendedores">
+                <select name="propiedad[vendedor]" id="vendedores">
                     <option selected disabled value="">--Seleccione una opcion--</option>
                     <?php foreach($vendedores as $vendedor) { ?>
                         <option <?php echo $propiedad->vendedores_id === $vendedor->id ? 'selected' : ''; ?>

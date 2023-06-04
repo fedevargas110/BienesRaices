@@ -83,7 +83,7 @@ public function eliminar() {
 //Recorrer el objeto, identificar y unir los atributos de la BD
 public function atributos() {
     $atributos = [];
-    foreach(self::$columnasDB as $columnas) {
+    foreach(static::$columnasDB as $columnas) {
         if($columnas === 'id') continue;//Lo que hace es que saltee el primer elemento del foreach
         $atributos[$columnas] = $this->$columnas;
     }
@@ -164,7 +164,7 @@ public static function constultarSQL($query) {
     //Iterar los resultados
     $array = [];
     while($registro = $resultado->fetch_assoc()) {
-        $array[] = self::crearObjeto($registro);
+        $array[] = static::crearObjeto($registro);
     }
 
     //Liberar la memoria
