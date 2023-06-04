@@ -8,9 +8,11 @@
     }
 
     use App\Propiedad;
+    use App\Vendedores;
 
 //Implementar un metodo para obtener todas las propiedades
 $propiedad = Propiedad::all();
+$vendedores = Vendedores::all();
 
 
 $resultado = $_GET['resultado'] ?? null;
