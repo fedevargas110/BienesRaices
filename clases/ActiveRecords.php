@@ -130,42 +130,12 @@ public function eliminarImagen() {
 
 //Validar Errores
 public static function getError() {
-    return self::$errores;
+    return static::$errores;
 }
 
 public function validar() {
-    if(!$this->titulo) {
-        self::$errores[] = "Debes añadir un titulo";
-    }
-
-    if(!$this->precio) {
-        self::$errores[] = "El Precio es Obligatorio";
-    }
-
-    if(!$this->descripcion) {
-        self::$errores[] = "Debes añadir una descripcion";
-    }
-
-    if(!$this->habitaciones) {
-        self::$errores[] = "Debes añadir un numero de habitaciones";
-    }
-
-    if(!$this->wc) {
-        self::$errores[] = "Debes añadir un numero de baños";
-    }
-
-    if(!$this->estacionamiento) {
-        self::$errores[] = "Debes añadir un numero de estacionamientos";
-    }
-
-    if(!$this->vendedores_id) {
-        self::$errores[] = "Debes elejir un vendedor";
-    }
-
-    if(!$this->imagen) {
-        self::$errores[] = "La imagen es obligatoria";
-    }
-    return self::$errores;
+    static::$errores = [];
+    return static::$errores;
 }
 
 //Listar todos los registros

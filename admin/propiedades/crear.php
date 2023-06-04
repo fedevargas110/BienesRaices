@@ -8,22 +8,19 @@
 
     include '../../includes/templates/header.php';
 
+    //Importando los namespace 
     use App\Propiedad;
+    use App\Vendedores;
     use Intervention\Image\ImageManagerStatic as Image;
 
-
-    //Base de Datos
-    $db = conectarDB();
-
+    //Definiendo la nueva Instancia de la clase Propiedad
     $propiedad = new Propiedad;
 
-//Mostrar los vendedores desde la base de datos
-$consulta = "SELECT * FROM vendedores;";
+    //Creando instancia de vendedores
+    $vendedores = Vendedores::all();
 
-$resultado = mysqli_query($db, $consulta);
-
-//Arreglo con mensajes de errores
-$errores = Propiedad::getError();
+    //Arreglo con mensajes de errores
+    $errores = Propiedad::getError();
 
 
 //Printeando los valores en el servidor
