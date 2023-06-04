@@ -30,3 +30,9 @@ function s($html) : string {
     $s = htmlspecialchars($html);
     return $s;
 }
+
+//Detectando el tipo seleccionado antes de eliminar o actualizar
+function validandoTipo($tipo) {
+    $tipos = ['vendedor', 'propiedad'];
+    return $tipos;
+}

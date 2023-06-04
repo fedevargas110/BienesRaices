@@ -22,11 +22,19 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = filter_var($id, FILTER_VALIDATE_INT);
 
     if($id) {
-        
-        $propiedad = Propiedad::find($id);
-        
-        $propiedad->eliminar();
 
+        $tipo = $_POST['tipo'];
+        
+        if(validandoTipo($tipo)) {
+            //Comparar lo que vamos a eliminar
+            if($tipo === 'vendedor') {
+                $vendedores = Vendedores::find($id);
+                $vendedores->eliminar();
+            }else if($tipo === 'propiedad') {
+                $propiedad = Propiedad::find($id);
+                $propiedad->eliminar();
+            }
+        }
     }
 }
 
@@ -44,6 +52,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             <p class="alerta exito">La Propiedad ha sido eliminada con exito</p>
         <?php endif;  ?>
         <a href="propiedades/crear.php" class="boton boton-verde">Nueva Propiedad</a>
+        <a href="vendedores/crear.php" class="boton boton-amarillo">Registrar Vendedor(a)</a>
+
+            <h2>Propiedades</h2>
 
         <table class="propiedades">
             <thead>
@@ -65,10 +76,42 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <td>
                         <form method="POST">
                             <input type="hidden" name="id" value="<?php echo $prop->id; ?>">
+                            <input type="hidden" name="tipo" value="propiedad">
                             <input type="submit" value="Eliminar" class="boton-rojo-block">       
                         </form>
                         
                         <a href="propiedades/actualizar.php?id=<?php echo $prop->id; ?>" class="boton-verde-block">Actulizar</a>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+
+        <h2>Vendedores</h2>
+
+        <table class="propiedades">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Telefono</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody><!--Mostrar los resultados-->
+                <?php foreach( $vendedores as $vendedor ) : ?>
+                <tr>
+                    <td><?php echo $vendedor->id; ?></td>
+                    <td><?php echo $vendedor->nombre; ?></td>
+                    <td><?php echo $vendedor->telefono; ?></td>
+                    <td>
+                        <form method="POST">
+                            <input type="hidden" name="id" value="<?php echo $vendedor->id; ?>">
+                            <input type="hidden" name="tipo" value="vendedor">
+                            <input type="submit" value="Eliminar" class="boton-rojo-block">       
+                        </form>
+                        
+                        <a href="vendedores/actualizar.php?id=<?php echo $vendedor->id; ?>" class="boton-verde-block">Actulizar</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>

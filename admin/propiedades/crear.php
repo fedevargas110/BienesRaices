@@ -70,7 +70,7 @@
             </div>
         <?php endforeach;?>
 
-        <form class="formulario" method="POST" action="crear.php" enctype="multipart/form-data">
+        <form class="formulario" method="POST" action="../propiedades/crear.php" enctype="multipart/form-data">
              
             <!--Los agrego desde Templates-->
             <?php include '../../includes/templates/formulario_propiedades.php'; ?>
