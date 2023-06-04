@@ -147,6 +147,15 @@ public static function all() {
     return $resultado;
 }
 
+//Listar un numero determinado de props
+public static function get($cant) {
+    $query = "SELECT * FROM " . static::$tabla . " LIMIT " .  $cant;
+
+    $resultado = self::constultarSQL($query); //Haciendo la consulta a la BD
+
+    return $resultado;
+}
+
 //Busca un registro por su id
 public static function find($id) {
     $query = "SELECT * FROM " . static::$tabla . " WHERE id = ${id}";

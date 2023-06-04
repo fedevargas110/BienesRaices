@@ -25,7 +25,6 @@ incluirTempate('header', $inicio = true);
 </main>
 
 <?php
-$limite = 3;
 include './includes/templates/anuncios.php';
 ?>
 
