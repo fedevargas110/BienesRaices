@@ -45,11 +45,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     <main class="contenedor seccion">
         <h1>Administrador de Bienes Raices</h1>
         <?php if($resultado == 1): ?>
-            <p class="alerta exito">La Propiedad ha sido creada correctamente</p>
+            <p class="alerta exito">Registro creado correctamente</p>
         <?php elseif($resultado == 2): ?>
-            <p class="alerta exito">La Propiedad ha sido actualizada con exito</p>
+            <p class="alerta exito">Registro actualizado con exito</p>
         <?php elseif($resultado == 3): ?>
-            <p class="alerta exito">La Propiedad ha sido eliminada con exito</p>
+            <p class="alerta exito">Registro eliminado con exito</p>
         <?php endif;  ?>
         <a href="propiedades/crear.php" class="boton boton-verde">Nueva Propiedad</a>
         <a href="vendedores/crear.php" class="boton boton-amarillo">Registrar Vendedor(a)</a>

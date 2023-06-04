@@ -5,7 +5,7 @@
 <input type="text" id="nombre" name="vendedores[nombre]" placeholder="Nombre de Vendedor(a)" value="<?php echo s($vendedor->nombre) ?>">
 
 <label for="apellido">Apellido:</label>
-<input type="text" id="nombre" name="vendedores[apellido]" placeholder="Apellido de Vendedor(a)" value="<?php echo s($vendedor->apellido) ?>">
+<input type="text" id="apellido" name="vendedores[apellido]" placeholder="Apellido de Vendedor(a)" value="<?php echo s($vendedor->apellido) ?>">
 
 </fieldset>
 

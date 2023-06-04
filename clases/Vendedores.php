@@ -22,4 +22,21 @@ class Vendedores extends ActiveRecords{
     $this->telefono = $args['telefono'] ?? '';
 }
    
+    public function validar() {
+        if(!$this->nombre) {
+            self::$errores[] = "Debes añadir el nombre";
+        }
+        if(!$this->apellido) {
+            self::$errores[] = "Debes añadir el apellido";
+        }
+        if(!$this->telefono) {
+            self::$errores[] = "Debes añadir el telefono";
+        }
+        if(!preg_match('/[0-9]{10}/', $this->telefono)) {//Extencion fija por los //, de 10 dijitos y acepta numeros del 0 al 9
+            self::$errores[] = "Debes añadir un telefono que sea de argentina y sea valido";
+        }
+
+        return self::$errores;
+    }   
+
 }

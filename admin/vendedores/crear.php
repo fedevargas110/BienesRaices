@@ -21,7 +21,17 @@ include '../../includes/templates/header.php';
     //Printeando los valores en el servidor
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
+         //Creanodo instancia de Vendedores cuando se manda el POST
+         $vendedor = new Vendedores($_POST['vendedores']);
 
+        //Validando
+        $errores = $vendedor->validar();
+
+        //Revisar que el arrelgo de errores este vacio asi se procede a insertar en BD
+        if(empty($errores)) {
+            //Guarda en la BD
+           $vendedor->guardar();
+        }
     }
 
 ?>
