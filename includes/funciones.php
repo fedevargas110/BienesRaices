@@ -36,3 +36,24 @@ function validandoTipo($tipo) {
     $tipos = ['vendedor', 'propiedad'];
     return $tipos;
 }
+
+//Mostrar nlas notificaciones
+function mostrarMensajes($codigo) {
+    $mensaje = '';
+
+    switch($codigo) {
+        case 1:
+            $mensaje = 'Creado Exitosamente';
+            break;
+        case 2:
+            $mensaje = 'Actualizado Exitosamente';
+            break;
+        case 3:
+            $mensaje = 'Eliminado Exitosamente';
+            break;
+        default:
+            $mensaje = false;
+            break;
+    }
+    return $mensaje;
+}
